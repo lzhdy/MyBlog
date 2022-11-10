@@ -1,7 +1,8 @@
 import {defineStore} from "pinia";
 import {Names} from "./nameSpace";
 
-export const useThemeStore = defineStore(Names.Theme, {
+
+const useThemeStore = defineStore(Names.Theme, {
     state: () => {
         return {
             grey0: "#fff",
@@ -146,3 +147,7 @@ export const useThemeStore = defineStore(Names.Theme, {
         }
     }
 })
+
+export {
+    useThemeStore
+}

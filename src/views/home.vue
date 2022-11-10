@@ -2,11 +2,11 @@
   <div class="inner">
     <div id="main" class="pjax">
       <div class="index wrap">
-        <h2 class="divider">置顶文章</h2>
-        <sticky-posts></sticky-posts>
-        <h2 class="divider">精选分类</h2>
-        <article-classify></article-classify>
-        <h2 class="divider">文章列表</h2>
+        <h2 v-show="pageNumber === 1" class="divider">置顶文章</h2>
+        <sticky-posts v-show="pageNumber === 1"></sticky-posts>
+        <h2 v-show="pageNumber === 1" class="divider">精选分类</h2>
+        <article-classify v-show="pageNumber === 1"></article-classify>
+        <h2 v-show="pageNumber === 1" class="divider">文章列表</h2>
         <article-list></article-list>
       </div>
       <pagination-bar></pagination-bar>
@@ -25,6 +25,19 @@ import Sidebar from "@/components/sideBar/sidebar.vue";
 
 import {useThemeStore} from "@/store";
 import {storeToRefs} from "pinia";
+import {onMounted, provide, reactive, ref} from "vue";
+import {Data} from "@/store/type";
+
+const pageNumber = ref(1)
+const pageSize = ref(5)
+
+// 获取文章列表数据
+const data = reactive({}) as Data
+
+
+provide('pageNumber', pageNumber)
+provide('pageSize', pageSize)
+provide('data', data)
 
 
 const themeStore = useThemeStore();

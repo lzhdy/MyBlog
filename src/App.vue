@@ -3,6 +3,7 @@
   <div v-show="loadShow" class="loading">
     <loading></loading>
   </div>
+  <theme-loading></theme-loading>
   <!--  主页面-->
   <div id="container">
     <header id="header">
@@ -27,12 +28,19 @@ import Imgs from "@/components/imgs/imgs.vue";
 import SideNav from "@/components/inner/sideNav/sideNav.vue";
 import Waves from "@/components/waves/waves.vue";
 import Ending from "@/components/ending/ending.vue";
-
+import ThemeLoading from "@/components/themeLoading/themeLoading.vue";
 import {useThemeStore} from "@/store";
-import {onMounted, ref} from "vue";
+import {onMounted, provide, ref} from "vue";
 import {storeToRefs} from "pinia";
 
 
+// 主题切换
+const themeChange = ref(false);
+const opacityShow = ref(0)
+const displayShow = ref("none")
+provide("themeChange", themeChange);
+provide("opacityShow", opacityShow);
+provide("displayShow", displayShow);
 //设置加载页面
 // const loadShow = ref(true)
 // document.body.style.overflow = "hidden"

@@ -1,171 +1,22 @@
 <template>
 
   <div class="cards">
-    <section class="item show">
-      <div class="cover lozaded"
-           data-background-image="//cdn.jsdelivr.net/gh/amehime/shoka@30732f13/computer-science/note/cover.jpg"
-           data-loaded="true"
-           style="background-image: url(&quot;//cdn.jsdelivr.net/gh/amehime/shoka@30732f13/computer-science/note/cover.jpg&quot;);">
-        <h2 class="title">二进制杂谈</h2><span>计算机科学</span></div>
+    <section v-for="category in homeCategory.data" :key="category.id" class="item show"
+             @mouseleave="removeActive($event)" @mouseover="addActive($event)">
+      <div :style="{background: 'url('+ category.description +')'}" class="cover lozaded">
+        <h2 class="title">{{ category.name }}</h2><span>{{ category.parentName }}</span></div>
       <div class="info">
-        <div class="ribbon"><a data-pjax-state="" href="/categories/computer-science/note/" itemprop="url"
-                               title="二进制杂谈">二进制杂谈</a></div>
+        <div class="ribbon"><a href="#">{{ category.name }}</a></div>
         <div class="inner">
           <ul class="posts">
-            <li><a data-pjax-state="" href="/categories/computer-science/note/theme-shoka-doc/"
-                   title="Theme Shoka Documentation">Theme Shoka Documentation</a></li>
-            <li><a data-pjax-state="" href="/computer-science/note/v2yume-setup-log/"
-                   title="V2Yume配置记录">V2Yume配置记录</a>
-            </li>
+            <li v-for="children in category.children" :key="children.id"><a href="#">{{ children.name }}</a></li>
           </ul>
-          <div class="meta footer"><span><a data-pjax-state="" href="/categories/computer-science/" itemprop="url"
-                                            title="计算机科学"><i
-              class="ic i-flag"></i>计算机科学</a> </span><span><i class="ic i-file"></i>1 个子项，6 篇文章</span>
+          <div class="meta footer">
+            <span><a href="#" title="计算机科学"><i
+                class="iconfont icon-mubiao"></i>{{ category.parentName }}</a> </span>
+            <span><i class="iconfont icon-wenzhangfenlei"></i>{{ category.children.length }} 个子项，6 篇文章</span>
           </div>
-          <a class="btn" data-pjax-state="" href="/categories/computer-science/note/" itemprop="url"
-             title="二进制杂谈">more...</a></div>
-      </div>
-    </section>
-    <section class="item show">
-      <div class="cover lozaded"
-           data-background-image="//cdn.jsdelivr.net/gh/amehime/shoka@30732f13/clinical-medicine/graduate/course-1/cover.jpg"
-           data-loaded="true"
-           style="background-image: url(&quot;//cdn.jsdelivr.net/gh/amehime/shoka@30732f13/clinical-medicine/graduate/course-1/cover.jpg&quot;);">
-        <h2 class="title">西医综合-内科学</h2><span>临床医学</span></div>
-      <div class="info">
-        <div class="ribbon"><a data-pjax-state="" href="/categories/clinical-medicine/graduate/course-1/"
-                               itemprop="url" title="西医综合-内科学">西医综合-内科学</a></div>
-        <div class="inner">
-          <ul class="posts">
-            <li><a data-pjax-state=""
-                   href="/clinical-medicine/graduate/course-1/chapter-1/"
-                   title="第01章 肺部感染性疾病（各型肺炎、肺脓肿）">第01章
-              肺部感染性疾病（各型肺炎、肺脓肿）</a></li>
-            <li><a data-pjax-state="" href="/clinical-medicine/graduate/course-1/chapter-2/"
-                   title="第02章 支气管扩张症">第02章 支气管扩张症</a></li>
-            <li><a data-pjax-state="" href="/clinical-medicine/graduate/course-1/chapter-3/"
-                   title="第03章 肺结核">第03章 肺结核</a></li>
-            <li><a data-pjax-state=""
-                   href="/clinical-medicine/graduate/course-1/chapter-4/" title="第04章 慢性支气管炎、慢性阻塞性肺疾病">第04章
-              慢性支气管炎、慢性阻塞性肺疾病</a></li>
-            <li><a data-pjax-state="" href="/clinical-medicine/graduate/course-1/chapter-5/"
-                   title="第05章 支气管哮喘">第05章 支气管哮喘</a></li>
-            <li><a data-pjax-state=""
-                   href="/clinical-medicine/graduate/course-1/chapter-6/" title="第06章 肺血栓栓塞症与慢性肺源性心脏病">第06章
-              肺血栓栓塞症与慢性肺源性心脏病</a></li>
-          </ul>
-          <div class="meta footer"><span><a data-pjax-state="" href="/categories/clinical-medicine/" itemprop="url"
-                                            title="临床医学"><i class="ic i-flag"></i>临床医学</a> </span><span><i
-              class="ic i-file"></i>6 篇文章</span></div>
-          <a class="btn" data-pjax-state="" href="/categories/clinical-medicine/graduate/course-1/"
-             itemprop="url" title="西医综合-内科学">more...</a></div>
-      </div>
-    </section>
-    <section class="item show">
-      <div class="cover"
-           data-background-image="//cdn.jsdelivr.net/gh/amehime/shoka@30732f13/clinical-medicine/intermediate/course-1/cover.jpg">
-        <h2 class="title">内科基础知识</h2><span>临床医学</span></div>
-      <div class="info">
-        <div class="ribbon"><a data-pjax-state="" href="/categories/clinical-medicine/intermediate/course-1/"
-                               itemprop="url" title="内科基础知识">内科基础知识</a></div>
-        <div class="inner">
-          <ul class="posts">
-            <li><a data-pjax-state="" href="/clinical-medicine/intermediate/course-1/symptom-1/"
-                   title="症状01 发热">症状01 发热</a></li>
-            <li><a data-pjax-state="" href="/clinical-medicine/intermediate/course-1/symptom-2/"
-                   title="症状02 咳嗽与咳痰">症状02 咳嗽与咳痰</a></li>
-            <li><a data-pjax-state="" href="/clinical-medicine/intermediate/course-1/symptom-3/"
-                   title="症状03 咯血">症状03 咯血</a></li>
-            <li><a data-pjax-state="" href="/clinical-medicine/intermediate/course-1/symptom-4/"
-                   title="症状04 发绀">症状04 发绀</a></li>
-            <li><a data-pjax-state="" href="/clinical-medicine/intermediate/course-1/symptom-5/"
-                   title="症状05 胸痛">症状05 胸痛</a></li>
-            <li><a data-pjax-state="" href="/clinical-medicine/intermediate/course-1/symptom-6/"
-                   title="症状06 呼吸困难">症状06 呼吸困难</a></li>
-          </ul>
-          <div class="meta footer"><span><a data-pjax-state="" href="/categories/clinical-medicine/" itemprop="url"
-                                            title="临床医学"><i class="ic i-flag"></i>临床医学</a> </span><span><i
-              class="ic i-file"></i>13 篇文章</span></div>
-          <a class="btn" data-pjax-state="" href="/categories/clinical-medicine/intermediate/course-1/"
-             itemprop="url" title="内科基础知识">more...</a></div>
-      </div>
-    </section>
-    <section class="item show">
-      <div class="cover"
-           data-background-image="//cdn.jsdelivr.net/gh/amehime/shoka@30732f13/computer-science/java/cover.jpg">
-        <h2 class="title">Java</h2><span>计算机科学</span></div>
-      <div class="info">
-        <div class="ribbon"><a data-pjax-state="" href="/categories/computer-science/java/" itemprop="url"
-                               title="Java">Java</a></div>
-        <div class="inner">
-          <ul class="posts">
-            <li><a data-pjax-state="" href="/categories/computer-science/java/course-1/"
-                   title="零基础学Java语言-浙江大学-翁恺">零基础学Java语言-浙江大学-翁恺</a></li>
-            <li><a data-pjax-state=""
-                   href="/categories/computer-science/java/course-2/"
-                   title="面向对象程序设计-Java语言-浙江大学-翁恺">面向对象程序设计-Java语言-浙江大学-翁恺</a></li>
-          </ul>
-          <div class="meta footer"><span><a data-pjax-state="" href="/categories/computer-science/" itemprop="url"
-                                            title="计算机科学"><i
-              class="ic i-flag"></i>计算机科学</a> </span><span><i class="ic i-file"></i>2 个子项，16 篇文章</span>
-          </div>
-          <a class="btn" data-pjax-state="" href="/categories/computer-science/java/" itemprop="url" title="Java">more...</a>
-        </div>
-      </div>
-    </section>
-    <section class="item show">
-      <div class="cover"
-           data-background-image="//cdn.jsdelivr.net/gh/amehime/shoka@30732f13/computer-science/mse/cover.jpg"><h2
-          class="title">Master of Software Engineering</h2><span>计算机科学</span></div>
-      <div class="info">
-        <div class="ribbon"><a data-pjax-state="" href="/categories/computer-science/mse/"
-                               itemprop="url" title="Master of Software Engineering">Master of Software
-          Engineering</a></div>
-        <div class="inner">
-          <ul class="posts">
-            <li><a data-pjax-state="" href="/categories/computer-science/mse/itmd-510/"
-                   title="ITMD 510. Object-Oriented App Develop">ITMD 510. Object-Oriented App Develop</a></li>
-            <li><a data-pjax-state=""
-                   href="/categories/computer-science/mse/itmd-511/"
-                   title="ITMD 511. Application Development Methodologies">ITMD 511. Application
-              Development Methodologies</a></li>
-            <li><a data-pjax-state="" href="/categories/computer-science/mse/itmd-513/"
-                   title="ITMD 513. Open Source Programming">ITMD 513. Open Source Programming</a></li>
-            <li><a data-pjax-state=""
-                   href="/categories/computer-science/mse/itmd-514/" title="ITMD 514. Programming for Data Analytics">ITMD
-              514. Programming for
-              Data Analytics</a></li>
-            <li><a data-pjax-state=""
-                   href="/categories/computer-science/mse/itmd-515/" title="ITMD 515. Advanced Software Programming">ITMD
-              515. Advanced
-              Software Programming</a></li>
-            <li><a data-pjax-state=""
-                   href="/categories/computer-science/mse/itmd-522/" title="ITMD 522. Data Mining and Machine Learning">ITMD
-              522. Data Mining and
-              Machine Learning</a></li>
-          </ul>
-          <div class="meta footer"><span><a data-pjax-state="" href="/categories/computer-science/" itemprop="url"
-                                            title="计算机科学"><i
-              class="ic i-flag"></i>计算机科学</a> </span><span><i
-              class="ic i-file"></i>10 个子项，112 篇文章</span></div>
-          <a class="btn" data-pjax-state="" href="/categories/computer-science/mse/"
-             itemprop="url" title="Master of Software Engineering">more...</a></div>
-      </div>
-    </section>
-    <section class="item show">
-      <div class="cover"
-           data-background-image="//cdn.jsdelivr.net/gh/amehime/shoka@30732f13/foreign-language/cover.jpg"><h2
-          class="title">外语</h2></div>
-      <div class="info">
-        <div class="ribbon"><a data-pjax-state="" href="/categories/foreign-language/" itemprop="url"
-                               title="外语">外语</a></div>
-        <div class="inner">
-          <ul class="posts">
-            <li><a data-pjax-state="" href="/categories/foreign-language/english/" title="英语">英语</a></li>
-          </ul>
-          <div class="meta footer"><span><i class="ic i-file"></i>1 个子项，2 篇文章</span></div>
-          <a class="btn" data-pjax-state="" href="/categories/foreign-language/" itemprop="url" title="外语">more...</a>
-        </div>
+          <a class="btn" href="#">more...</a></div>
       </div>
     </section>
   </div>
@@ -176,11 +27,35 @@
 import {ref, reactive, onMounted, onBeforeUnmount} from 'vue'
 import {useThemeStore} from "@/store";
 import {storeToRefs} from "pinia";
+import {getHomeCategory} from "@/apis/category";
+
+const isActive = ref(false);
+
+const addActive = ($event: any) => {
+  $event.currentTarget.className = 'item show active'
+}
+const removeActive = ($event: any) => {
+  $event.currentTarget.className = 'item show'
+}
+const homeCategory = reactive({
+  code: "",
+  data: [],
+  msg: "",
+})
 
 
 onMounted(() => {
 
-  const show = document.querySelectorAll('section')
+  // 获取分类信息
+  getHomeCategory().then((res) => {
+    homeCategory.data = res.data.data
+    homeCategory.code = res.data.code
+    homeCategory.msg = res.data.msg
+  })
+
+
+  // 实现鼠标放上去翻页
+  const show = document.querySelectorAll('.item.show')
 
   function activeShow(this: any) {
     show.forEach((item) =>
@@ -365,7 +240,7 @@ const {
           font-size: .8125em;
           color: v-bind(grey5);
 
-          .ic {
+          .iconfont {
             margin-right: 0.0625rem;
           }
         }
@@ -454,7 +329,7 @@ const {
   transform: rotateY(-180deg);
 }
 
-.cards .item .title .ic {
+.cards .item .title .iconfont {
   font-size: 80%;
 }
 

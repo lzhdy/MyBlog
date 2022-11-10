@@ -1,36 +1,34 @@
 <template>
 
   <div class="segments sticky">
-    <article class="item show">
-      <div class="cover"><a data-pjax-state="" href="/computer-science/note/theme-shoka-doc/"
-                            itemprop="url" title="Hexo主题Shoka &amp; multi-markdown-it渲染器使用说明"><img
-          alt="文章配图"
-          class="lozaded" data-loaded="true"
-          data-src="https://tva2.sinaimg.cn/mw690/6833939bly1gipeubcbajj20zk0m8h1h.jpg"
-          src="https://tva2.sinaimg.cn/mw690/6833939bly1gipeubcbajj20zk0m8h1h.jpg"></a></div>
+    <article v-for="topArticle in topArticleList.list" :key="topArticle.id" class="item show">
+      <div class="cover">
+        <a :title="topArticle.title" href="#">
+          <img :src="topArticle.thumbnail" alt="文章配图" class="lozaded">
+        </a>
+      </div>
       <div class="info">
-        <div class="meta"><span class="item" title="创建时间：2020-08-13 20:45:48"><span class="icon"><i
-            class="ic i-calendar"></i> </span><time datetime="2020-08-13T20:45:48+08:00"
-                                                    itemprop="dateCreated datePublished">2020-08-13</time> </span><span
-            class="item" title="本文字数"><span class="icon"><i
-            class="ic i-pen"></i> </span><span>2.2k</span> <span class="text">字</span> </span><span class="item"
-                                                                                                     title="阅读时长"><span
-            class="icon"><i class="ic i-clock"></i> </span><span>2 分钟</span></span></div>
-        <h3><a data-pjax-state="" href="/computer-science/note/theme-shoka-doc/"
-               itemprop="url" title="Hexo主题Shoka &amp; multi-markdown-it渲染器使用说明">Hexo主题Shoka &amp;
-          multi-markdown-it渲染器使用说明</a></h3>
-        <div class="excerpt">跳票 N 久终于更新的简单的使用说明 hexo-theme-shoka ：本博客自用的主题
-          hexo-renderer-multi-markdown-it：配套的 markdown 渲染器 已经支持 hexo 5。
-          因博主被学业和工作掏空，本项目已停滞更新大半年，问题也无法及时回复大家，这个悲惨状态可能还要持续半年的样子。
-          有很多热心小伙伴在评论区或者项目 issue 帮忙回答问题，非常非常感谢！ 本项目是完全开源的，也有做一些
-          example...
+        <div class="meta">
+          <span class="item" title="创建时间">
+            <span class="icon"><i class="iconfont icon-rili"></i></span>
+            <time :datetime="topArticle.createTime">{{ topArticle.createTime }}</time>
+          </span>
+          <span class="item" title="本文字数">
+            <span class="icon"><i class="iconfont icon-yongyan"></i> </span>
+            <span>{{ (topArticle.wordage - (topArticle.wordage % 1000)) / 1000 + "K" }}</span> <span
+              class="text">字</span>
+          </span>
+          <span class="item" title="浏览次数">
+            <span class="icon"><i class="iconfont icon-yanjing"></i> </span>
+            <span>{{ topArticle.viewCount }}</span>
+          </span>
         </div>
-        <div class="meta footer"><span><a data-pjax-state="" href="/categories/computer-science/note/theme-shoka-doc/"
-                                          itemprop="url" title="Theme Shoka Documentation"><i
-            class="ic i-flag"></i>Theme Shoka Documentation</a></span></div>
-        <a class="btn" data-pjax-state=""
-           href="/computer-science/note/theme-shoka-doc/" itemprop="url"
-           title="Hexo主题Shoka &amp; multi-markdown-it渲染器使用说明">more...</a>
+        <h3><a :title="topArticle.title" href="#">{{ topArticle.title }}</a></h3>
+        <div class="excerpt">{{ topArticle.summary }}</div>
+        <div class="meta footer">
+          <span><a href="#"><i class="iconfont icon-mubiao"></i>{{ topArticle.categoryName[0] }}</a></span>
+        </div>
+        <a :title="topArticle.title" class="btn" href="#">more...</a>
       </div>
     </article>
   </div>
@@ -38,9 +36,27 @@
 </template>
 
 <script lang='ts' setup>
-import {ref, reactive} from 'vue'
+import {ref, reactive, onMounted} from 'vue'
 import {useThemeStore} from "@/store";
 import {storeToRefs} from "pinia";
+
+// 获取置顶文章
+import {getTopArticleList} from "@/apis/article";
+
+
+const topArticleList = reactive({
+  code: "",
+  list: [],
+  msg: "",
+
+})
+onMounted(() => {
+  getTopArticleList().then((res) => {
+    topArticleList.list = res.data.data
+    topArticleList.code = res.data.code
+    topArticleList.msg = res.data.msg
+  })
+})
 
 const themeStore = useThemeStore();
 const {box_bg_shadow, grey5, primary_color, grey0, color_pink, color_orange, color_pink_a3} = storeToRefs(themeStore)
@@ -64,6 +80,10 @@ const {box_bg_shadow, grey5, primary_color, grey0, color_pink, color_orange, col
     min-width: calc(100% - 2rem);
     box-shadow: 0 0.625rem 1.875rem -0.9375rem v-bind(box_bg_shadow);
     transition: all 0.2s ease-in-out 0s;
+  }
+
+  > .item:nth-child(even) {
+    flex-direction: row-reverse;
   }
 
   > .item:hover {
@@ -91,6 +111,14 @@ const {box_bg_shadow, grey5, primary_color, grey0, color_pink, color_orange, col
     }
   }
 
+  > .item:nth-child(even) .cover {
+    margin-right: auto;
+    margin-left: 1.5rem;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 8% 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 8% 100%);
+    border-radius: 0 0.625rem 0.625rem 0;
+  }
+
   .info {
     position: relative;
     width: 50%;
@@ -104,7 +132,7 @@ const {box_bg_shadow, grey5, primary_color, grey0, color_pink, color_orange, col
       font-size: .8125em;
       color: v-bind(grey5);
 
-      .ic {
+      .iconfont {
         margin-right: .0625rem;
       }
 
@@ -147,6 +175,14 @@ const {box_bg_shadow, grey5, primary_color, grey0, color_pink, color_orange, col
 
   }
 
+  > .item:nth-child(even) .info {
+    padding: 1rem 0 3rem 1.5rem;
+  }
+
+  > .item:nth-child(even) .info .meta {
+    justify-content: flex-start;
+  }
+
   .btn {
     position: absolute;
     bottom: 0;
@@ -176,6 +212,24 @@ const {box_bg_shadow, grey5, primary_color, grey0, color_pink, color_orange, col
 
   .btn:hover::before {
     transform: translateZ(-2.5rem);
+  }
+
+  > .item:nth-child(even) .btn {
+    left: 0;
+    right: auto;
+    border-radius: 0 1rem;
+    background-image: linear-gradient(to right,
+    v-bind(color_orange) 0,
+    v-bind(color_pink) 100%);
+  }
+
+  > .item:nth-child(even) .meta.footer {
+    right: 0.5rem;
+    justify-content: flex-start;
+  }
+
+  > .item:nth-child(even):hover .cover img {
+    transform: scale(1.05) rotate(-1deg);
   }
 }
 
@@ -212,6 +266,28 @@ const {box_bg_shadow, grey5, primary_color, grey0, color_pink, color_orange, col
 @media (max-width: 767px) {
   .segments .info .meta .item:not(:first-child) {
     display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .segments > .item:nth-child(even) {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 767px) {
+  .segments > .item:nth-child(even) .cover {
+    width: 100%;
+    margin: auto;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 92%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 92%);
+    border-radius: 0.625rem 0.625rem 0 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .segments > .item:nth-child(even) .info {
+    padding: 0 1rem 3rem;
   }
 }
 </style>

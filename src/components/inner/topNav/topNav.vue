@@ -58,9 +58,10 @@
 </template>
 
 <script lang='ts' setup>
-import {ref, reactive, onMounted, onBeforeUnmount} from 'vue'
+import {ref, reactive, onMounted, onBeforeUnmount, inject, Ref} from 'vue'
 import {useThemeStore} from "@/store";
 import {storeToRefs} from "pinia";
+
 
 
 // 判断页面滚动以改变顶部导航栏情况
@@ -82,14 +83,27 @@ onBeforeUnmount(() => {
 
 
 // 切换主题模式
-const isDark = ref(false)
+const themeChange = inject<Ref<Boolean>>("themeChange")
+const opacityShow = inject<Ref<number>>("opacityShow")
+const displayShow = inject<Ref<String>>("displayShow")
 const change = () => {
-  if (isDark.value) {
+  if (themeChange!.value) {
     themeStore.$reset()
   } else {
     themeStore.darkColor();
   }
-  isDark.value = !isDark.value
+  if (opacityShow!.value === 0 && displayShow!.value === "none") {
+    opacityShow!.value = 1;
+    displayShow!.value = "block";
+    setTimeout(() => {
+      themeChange!.value = !themeChange!.value
+    }, 1000)
+    setTimeout(() => {
+      opacityShow!.value = 0;
+      displayShow!.value = "none";
+    }, 3000)
+  }
+
 };
 
 const themeStore = useThemeStore();

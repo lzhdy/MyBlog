@@ -515,10 +515,12 @@ const {
       }
 
       .item .iconfont {
+        color: v-bind(grey6);
         font-weight: 400;
       }
 
       .item.active .iconfont {
+        color: v-bind(grey1);
         margin-right: 0.3125rem;
       }
     }

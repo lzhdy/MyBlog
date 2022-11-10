@@ -1,20 +1,60 @@
 <template>
 
   <nav class="pagination">
-    <div class="inner"><a class="extend prev" data-pjax-state="" href="/" rel="prev"><i aria-label="上一页"
-                                                                                        class="ic i-angle-left"></i></a><a
-        class="page-number" data-pjax-state="" href="/">1</a><span class="page-number current">2</span><a
-        class="page-number" data-pjax-state="" href="/page/3/">3</a><span class="space">…</span><a class="page-number"
-                                                                                                   data-pjax-state=""
-                                                                                                   href="/page/26/">26</a><a
-        class="extend next" data-pjax-state="" href="/page/3/" rel="next"><i aria-label="下一页"
-                                                                             class="ic i-angle-right"></i></a></div>
+    <div class="inner">
+      <a v-show="pageNumber > 1" class="extend prev" href="#" rel="prev" @click="toPrev"><i aria-label="上一页"
+                                                                                            class="iconfont icon-xiangzuo"></i></a>
+      <a v-show="pageNumber >= 3" class="page-number" href="#" @click="toFirst">1</a>
+      <span v-show="pageNumber > 3" class="space">…</span>
+      <a v-show="pageNumber > 1" class="page-number" href="#" @click="toPrev">{{ pageNumber - 1 }}</a>
+      <span class="page-number current">{{ pageNumber }}</span>
+      <a v-show="Math.ceil(data.total/pageSize) > 1 && Math.ceil(data.total/pageSize) > pageNumber" class="page-number"
+         href="#" @click="toNext">{{ pageNumber + 1 }}</a>
+      <span v-show="Math.ceil(data.total/pageSize) - pageNumber > 2" class="space">…</span>
+      <a v-show="Math.ceil(data.total/pageSize) - pageNumber > 1" class="page-number" href="#"
+         @click="toLast">{{ Math.ceil(data.total / pageSize) }}</a>
+      <a v-show="pageNumber < Math.ceil(data.total/pageSize)" class="extend next" data-pjax-state="" href="#" rel="next"
+         @click="toNext"><i aria-label="下一页" class="iconfont icon-xiangyou2"></i></a>
+    </div>
   </nav>
 
 </template>
 
 <script lang='ts' setup>
-import {ref, reactive} from 'vue'
+import {ref, reactive, inject, Ref, onMounted} from 'vue'
+import {Data} from "@/store/type";
+import {getArticleList} from "@/apis/article";
+
+const pageNumber = inject<Ref<number>>('pageNumber')
+const pageSize = inject<Ref<number>>('pageSize')
+const data = inject('data') as Data
+
+const toPrev = () => {
+  pageNumber!.value = pageNumber!.value - 1
+  getPageData()
+}
+const toFirst = () => {
+  pageNumber!.value = 1
+  getPageData()
+}
+const toNext = () => {
+  pageNumber!.value = pageNumber!.value + 1
+  getPageData()
+}
+const toLast = () => {
+  pageNumber!.value = Math.ceil(data.total / pageSize!.value)
+  getPageData()
+}
+const getPageData = () => {
+  getArticleList({pageNumber: pageNumber!.value, pageSize: pageSize!.value}).then((res) => {
+    data.articleVoList = res.data.data.articleVoList
+    data.total = res.data.data.total
+  })
+}
+
+onMounted(() => {
+  getPageData()
+})
 
 
 </script>
