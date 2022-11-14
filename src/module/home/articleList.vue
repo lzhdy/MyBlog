@@ -22,7 +22,7 @@
         <div class="excerpt">{{ articleVo.summary }}
         </div>
         <div class="meta footer"><span><a href="#"><i
-            class="iconfont icon-mubiao"></i>{{ articleVo.categoryName[0] }}</a></span></div>
+            class="iconfont icon-mubiao"></i>{{ articleVo.categoryName.at(-1) }}</a></span></div>
         <a :title="articleVo.title" class="btn" href="#">more...</a>
       </div>
     </article>

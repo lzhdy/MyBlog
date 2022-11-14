@@ -20,7 +20,15 @@ function getArticleList(param: pageMsg) {
     })
 }
 
+function getHotArticles() {
+    return getRequestAPI({
+        url: '/article/hotArticles',
+        method: 'get'
+    })
+}
+
 export {
     getTopArticleList,
-    getArticleList
+    getArticleList,
+    getHotArticles
 }

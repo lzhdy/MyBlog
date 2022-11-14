@@ -6,6 +6,27 @@
   "description": "博客使用图标",
   "glyphs": [
     {
+      "icon_id": "376168",
+      "name": "微信支付",
+      "font_class": "weixinzhifu",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "14593731",
+      "name": "打赏",
+      "font_class": "dashang",
+      "unicode": "e6c7",
+      "unicode_decimal": 59079
+    },
+    {
+      "icon_id": "6570",
+      "name": "电梯联系客服向右",
+      "font_class": "diantilianxikefuxiangyou",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
       "icon_id": "1660736",
       "name": "目标",
       "font_class": "mubiao",

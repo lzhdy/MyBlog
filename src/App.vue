@@ -9,7 +9,7 @@
     <header id="header">
       <inner></inner>
       <imgs></imgs>
-      <side-nav></side-nav>
+
       <waves></waves>
     </header>
     <main>
@@ -25,7 +25,6 @@
 import Loading from "@/components/loading/loading.vue";
 import Inner from "@/components/inner/inner.vue";
 import Imgs from "@/components/imgs/imgs.vue";
-import SideNav from "@/components/inner/sideNav/sideNav.vue";
 import Waves from "@/components/waves/waves.vue";
 import Ending from "@/components/ending/ending.vue";
 import ThemeLoading from "@/components/themeLoading/themeLoading.vue";
@@ -41,8 +40,13 @@ const displayShow = ref("none")
 provide("themeChange", themeChange);
 provide("opacityShow", opacityShow);
 provide("displayShow", displayShow);
+
+// 判断是否是首页,默认在首页
+const isHome = ref(true)
+provide("isHome", isHome)
+
 //设置加载页面
-// const loadShow = ref(true)
+const loadShow = ref(false)
 // document.body.style.overflow = "hidden"
 //
 // onMounted(() => {

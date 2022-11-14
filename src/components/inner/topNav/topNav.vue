@@ -1,6 +1,6 @@
 <template>
 
-  <nav id="nav" :class="{down:showDown}">
+  <nav id="nav" :class="{down:showDown, show:isShow}">
     <div class="inner">
       <div class="toggle">
         <div aria-label="切换导航栏" class="lines">
@@ -58,20 +58,31 @@
 </template>
 
 <script lang='ts' setup>
-import {ref, reactive, onMounted, onBeforeUnmount, inject, Ref} from 'vue'
+import {ref, reactive, onMounted, onBeforeUnmount, inject, Ref, watch} from 'vue'
 import {useThemeStore} from "@/store";
 import {storeToRefs} from "pinia";
 
 
-
 // 判断页面滚动以改变顶部导航栏情况
+let scrollTop = ref(0)
 const showDown = ref(false)
-
-
+const isShow = ref(false)
 const onScroll = () => {
-  const scrollTop = document.documentElement.scrollTop + document.body.scrollTop
-  showDown.value = scrollTop >= window.innerHeight * 0.55;
+  scrollTop.value = document.documentElement.scrollTop || document.body.scrollTop;
 }
+
+watch(scrollTop, (newValue, oldValue) => {
+  if (newValue > window.innerHeight * 0.55) {
+    if (newValue > oldValue) {
+      showDown.value = true;
+    } else {
+      showDown.value = false;
+      isShow.value = true;
+    }
+  } else {
+    isShow.value = false;
+  }
+})
 
 onMounted(() => {
   document.addEventListener('scroll', onScroll)
@@ -107,13 +118,23 @@ const change = () => {
 };
 
 const themeStore = useThemeStore();
-const {header_text_color, grey9_a5, grey9_a1} = storeToRefs(themeStore)
+const {header_text_color, grey9_a5, grey9_a1, nav_bg, text_color, grey1} = storeToRefs(themeStore)
 </script>
 <style lang="less" scoped>
 #nav.down {
   transform: translateY(-100%);
 }
 
+#nav.show {
+  background: v-bind(nav_bg);
+  box-shadow: .1rem .1rem .2rem v-bind(grey9_a1);
+  text-shadow: 0 0 .0625rem v-bind(grey9_a1);
+  color: v-bind(text_color);
+
+  .submenu .item {
+    background-color: v-bind(grey1);
+  }
+}
 #nav {
   position: fixed;
   z-index: 9;

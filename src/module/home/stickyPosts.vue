@@ -23,10 +23,12 @@
             <span>{{ topArticle.viewCount }}</span>
           </span>
         </div>
-        <h3><a :title="topArticle.title" href="#">{{ topArticle.title }}</a></h3>
+        <h3>
+          <router-link :to="{ name: 'article', params: { id: topArticle.id } }">{{ topArticle.title }}</router-link>
+        </h3>
         <div class="excerpt">{{ topArticle.summary }}</div>
         <div class="meta footer">
-          <span><a href="#"><i class="iconfont icon-mubiao"></i>{{ topArticle.categoryName[0] }}</a></span>
+          <span><a href="#"><i class="iconfont icon-mubiao"></i>{{ topArticle.categoryName.at(-1) }}</a></span>
         </div>
         <a :title="topArticle.title" class="btn" href="#">more...</a>
       </div>
@@ -40,8 +42,10 @@ import {ref, reactive, onMounted} from 'vue'
 import {useThemeStore} from "@/store";
 import {storeToRefs} from "pinia";
 
+
 // 获取置顶文章
 import {getTopArticleList} from "@/apis/article";
+import {useRoute, useRouter} from "vue-router";
 
 
 const topArticleList = reactive({

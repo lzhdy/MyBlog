@@ -1,3 +1,4 @@
+// 文章列表
 export interface ArticlesList {
     code: number;
     data: Data;
@@ -23,4 +24,33 @@ export interface ArticleVoList {
 export interface Page {
     pageNumber: number,
     pageSize: number,
+}
+
+
+// 热门文章列表
+export interface HotArticles {
+    code: number;
+    data: HotArticlesVo[];
+    msg: string;
+}
+
+export interface HotArticlesVo {
+    id: number,
+    title: String,
+    categoryName: []
+}
+
+// 最新评论列表
+export interface NewestComment {
+    code: number;
+    data: newestCommentVo[];
+    msg: string;
+}
+
+export interface newestCommentVo {
+    id: number,
+    articleId: number,
+    userName: string,
+    createTime: string,
+    content: string
 }

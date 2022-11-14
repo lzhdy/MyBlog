@@ -20,6 +20,10 @@ body::-webkit-scrollbar {
     height: 0;
 }
 
+span {
+    cursor: pointer;
+}
+
 :after,
 :before {
     box-sizing: border-box;

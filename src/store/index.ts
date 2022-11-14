@@ -119,6 +119,7 @@ const useThemeStore = defineStore(Names.Theme, {
             this.box_bg_shadow = "#000";
             this.text_color = "#aaa";
             this.header_text_color = "#f7f7f7";
+            this.nav_bg = "linear-gradient(-225deg, #2d3230 0,#322d31 100%)";
 
             this.primary_note_border = "rgba(123, 96, 119, 0.8)";
             this.primary_note_bg = "rgba(50, 49, 50, 0.8)"

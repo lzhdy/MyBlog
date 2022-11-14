@@ -9,9 +9,20 @@ import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 // 定义一些路由
 // 每个路由都需要映射到一个组件。
 const routes: Array<RouteRecordRaw> = [
+
     {
-        path: '/',
+        path: "/",
+        redirect: "/home"
+    },
+    {
+        path: "/home",
+        name: "home",
         component: () => import('../views/home.vue')
+    },
+    {
+        path: "/article/:id",
+        name: "article",
+        component: () => import('../views/article.vue')
     },
 ]
 

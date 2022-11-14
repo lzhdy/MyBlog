@@ -2,7 +2,7 @@
 
   <div id="sidebar" :class="{fixed:fixedSidebar}">
     <div class="inner">
-      <ul v-show="isHome" class="tab">
+      <ul v-show="!isHome" class="tab">
         <li class="contents item"><i class="iconfont icon-mulucaiji"></i><span>文章目录</span></li>
         <li class="related item"><i class="iconfont icon-buzhoulianxian"></i><span>系列文章</span></li>
         <li class="overview item active"><i class="iconfont icon-chengbao"></i><span>站点概览</span></li>
@@ -332,12 +332,14 @@
 </template>
 
 <script lang='ts' setup>
-import {ref, reactive, onMounted, onBeforeUnmount} from 'vue'
+import {ref, reactive, onMounted, onBeforeUnmount, inject, Ref} from 'vue'
 import {useThemeStore} from "@/store";
 import {storeToRefs} from "pinia";
 
 
-const isHome = ref(true)
+const isHome = inject<Ref<boolean>>('isHome')
+
+// 滚动进度条设置
 const distance = ref("0%")
 
 
