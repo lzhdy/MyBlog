@@ -13,7 +13,7 @@
     <hr>
     <div class="post block">
       <div class="body md">
-        <div>
+        <div v-html="content">
 
         </div>
 
@@ -58,9 +58,29 @@
 </template>
 
 <script lang='ts' setup>
-import {ref, reactive} from 'vue'
+import {ref, reactive, nextTick} from 'vue'
 import {useThemeStore} from "@/store";
 import {storeToRefs} from "pinia";
+import {marked} from "marked"
+
+// 展示文章
+const content = ref('')
+const render = new marked.Renderer()
+
+marked.setOptions({
+  renderer: render, // 这是必填项
+  gfm: true, // 启动类似于Github样式的Markdown语法
+  pedantic: false, // 只解析符合Markdown定义的，不修正Markdown的错误
+  sanitize: true // 原始输出，忽略HTML标签（关闭后，可直接渲染HTML标签）
+})
+
+
+const initContent = () => {
+  content.value = marked('# hello\r\nworld!')
+}
+nextTick(() => {
+  initContent()
+})
 
 // 展示付款码
 const setOpacity = ref(0)
